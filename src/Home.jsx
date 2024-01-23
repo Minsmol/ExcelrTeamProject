@@ -2,7 +2,10 @@ import React from 'react'
 import './Home.scss'
 import Login from './Login/Login'
 import Register from './Register/Register'
-import Calendar from './Calender/calendar'
+import  Calendar from './Calender/calendar'
+import Dashboard from './Dashboard/Dashboard'
+import Addtask from './Dashboard/Addtask'
+
 
 //Import React react router dom
 import {createBrowserRouter,
@@ -19,9 +22,17 @@ const router=createBrowserRouter([
 
     },
     {
-        path:'/calendar',element:<div><Calendar/></div>
+        path:'/calender',element:<div>< Calendar/></div>
 
+    },
+    {
+        path:'/dashboard',element:<div><Dashboard/></div>
+    },
+    {
+        path:'/addtask', element:<div><Addtask/></div>
     }
+   
+    
 
 ])
 

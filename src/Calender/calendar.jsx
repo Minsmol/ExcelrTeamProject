@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.css';
+
 
 function Calendar() {
+  //UserState to hold our inputs
   const [tasks, setTasks] = useState([]);
   const [taskInput, setTaskInput] = useState({
     date: '',
@@ -20,18 +23,23 @@ function Calendar() {
     setTaskInput({ ...taskInput, [name]: value });
   };
 
+
   const addTask = () => {
     // Check for overlapping events
     const overlap = tasks.some(task => task.date === taskInput.date &&
       ((taskInput.startTime >= task.startTime && taskInput.startTime < task.endTime) ||
-      (taskInput.endTime > task.startTime && taskInput.endTime <= task.endTime)));
+        (taskInput.endTime > task.startTime && taskInput.endTime <= task.endTime)));
 
+    const invalidTime = taskInput.startTime >= taskInput.endTime;
     if (overlap) {
-      setError('Cannot add overlapping events.');
+      setError('In this time another Event is assigned. Please change the time');
       return;
+    }else if(invalidTime){
+       setError('Invalid time');
+       return;
     }
 
-    if (taskInput.date && taskInput.title) {
+    if (taskInput.date && taskInput.title && taskInput.title.length <= 5) {
       setTasks([...tasks, taskInput]);
       setTaskInput({
         date: '',
@@ -43,6 +51,8 @@ function Calendar() {
       });
       setShowForm(false);
       setError('');
+    } else {
+      setError('Title cannot exceed 5 characters');
     }
   };
 
@@ -93,52 +103,77 @@ function Calendar() {
 
   return (
     <div className="App">
+      <nav>
       <h1>Task Calendar</h1>
+      </nav>
       {error && <div className="error">{error}</div>}
-      <button onClick={() => setShowForm(!showForm)}>{showForm ? 'Close' : 'Add Task'}</button>
+      <button class="btn btn-success bt-lg" onClick={() => setShowForm(!showForm)}>{showForm ? 'Close' : 'Add Task'}</button>
       {showForm && (
         <div className="task-form">
-          <input
-            type="date"
-            name="date"
-            value={taskInput.date}
-            onChange={handleInputChange}
-          />
-          <input
-            type="text"
-            name="title"
-            placeholder="Title"
-            value={taskInput.title}
-            onChange={handleInputChange}
-          />
-          <input
-            type="time"
-            name="startTime"
-            value={taskInput.startTime}
-            onChange={handleInputChange}
-          />
-          <input
-            type="time"
-            name="endTime"
-            value={taskInput.endTime}
-            onChange={handleInputChange}
-          />
-          <select
-            name="category"
-            value={taskInput.category}
-            onChange={handleInputChange}
-          >
-            <option value="personal">Personal</option>
-            <option value="professional">Professional</option>
-          </select>
-          <input
-            type="text"
-            name="description"
-            placeholder="Description"
-            value={taskInput.description}
-            onChange={handleInputChange}
-          />
-          <button onClick={addTask}>Save Task</button>
+
+          <div class="form-group row">
+            <label for="date" class="col-sm-2 col-form-label">Date</label>
+            <div class="col-sm-3">
+              <input type='date' name='date' class="form-control" 
+              value={taskInput.date} onChange={handleInputChange} />
+            </div>
+          </div>
+
+
+          <div class="form-group row">
+            <label for="title" class="col-sm-2 col-form-label">Title</label>
+            <div class="col-sm-3">
+              <input type="text" class="form-control" name='title' placeholder="title" 
+              value={taskInput.title} onChange={handleInputChange} />
+            </div>
+          </div>
+
+
+          <div class="form-group row">
+            <label for="starttime" class="col-sm-2 col-form-label">Start Time</label>
+            <div class="col-sm-3">
+              <input type="time" class="form-control" name="startTime" placeholder="start time" 
+              value={taskInput.startTime} onChange={handleInputChange} />
+            </div>
+          </div>
+
+
+          <div class="form-group row">
+            <label for="endtime" class="col-sm-2 col-form-label">End Time</label>
+            <div class="col-sm-3">
+              <input type="time" class="form-control" name="endTime" placeholder="end time" 
+              value={taskInput.endTime} onChange={handleInputChange} />
+            </div>
+          </div>
+
+
+          <div class="form-group row">
+            <label for="category" class="col-sm-2 col-form-label"> category</label>
+            <div class="col-sm-3">
+              <select class="form-select" aria-label="Default select example" name="category"
+              value={taskInput.category} onChange={handleInputChange}>
+                
+                <option value="personal">Personal</option>
+                <option value="professional">Professional</option>
+              </select>
+            </div>
+          </div>
+
+
+          <div class="form-group row">
+            <label for="description" class="col-sm-2 col-form-label">Description</label>
+            <div class="col-sm-3">
+              <input type="text" class="form-control" name="description" placeholder="Enter description of the task" 
+              value={taskInput.description} onChange={handleInputChange} />
+            </div>
+          </div>
+          
+
+          <div class="form-group row">
+          <div class="col-sm-5">
+          <button onClick={addTask} class="btn btn-success bt-lg">Save Task</button>
+          </div>
+          </div>
         </div>
       )}
       <div className="calendar">{renderCalendar()}</div>
@@ -150,7 +185,7 @@ function Calendar() {
             <span>{task.startTime} - {task.endTime}</span>
             <span>{task.category}</span>
             <span>{task.description}</span>
-            <button onClick={() => deleteTask(index)}>Completed</button>
+            <button onClick={() => deleteTask(index)} class="btn btn-warning">Completed</button>
           </div>
         ))}
       </div>

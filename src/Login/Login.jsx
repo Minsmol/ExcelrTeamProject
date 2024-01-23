@@ -44,7 +44,7 @@ const Login = () => {
             setLoginStatus('Credentials Dont Exist!')
            }
            else{
-            navigateTo('/calendar') //if the credentials match we shall navigate to dashboard
+            navigateTo('/dashboard') //if the credentials match we shall navigate to dashboard
            }
         })
     }

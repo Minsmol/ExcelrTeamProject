@@ -1,24 +1,37 @@
-import React from "react";
-import { useState } from "react";
-import './Dashboard.css'
-import Header from "./Header";
-import Sidebar from "./Sidebar";
-import Home from "./Home";
-const Dashboard =()=>{
-    const [openSidebarToggle, setOpenSidebarToggle] = useState(false)
-    const OpenSidebar = () => {
-        setOpenSidebarToggle(!openSidebarToggle)
-      }
-
-    return(
-        <div className='grid-container'>
-      <Header OpenSidebar={OpenSidebar}/>
-      <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={OpenSidebar}/>
-      <Home />
-    </div>
+import React from 'react';
+import './Dasboard.css'
+import Sidebar from './Sidebar'
+import Content from './content';
+const Dashboard = () => {
+    return (
+           
         
-        
-    )
+        <div>
+            <nav>
+                <h1>Dashboard</h1>
+                </nav>
+            <div class="container-row">
+                
+              
+                <Sidebar />
+                
+                
+                
+            </div>
 
-}
-export default Dashboard
+
+        </div>
+
+
+
+
+
+
+
+
+
+
+    );
+};
+
+export default Dashboard;

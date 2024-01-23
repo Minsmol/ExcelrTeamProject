@@ -1,39 +1,60 @@
-// eslint-disable-next-line no-unused-vars
-import React from 'react'
-import 
-{ BsMenuButtonWideFill , BsFillArchiveFill, BsFillGrid3X3GapFill, BsPeopleFill }
- from 'react-icons/bs'
+import React, { useState } from 'react';
+import {
+    FaTh,
+    FaBars,
+    FaUserAlt,
+    FaThList
+}from "react-icons/fa";
+import { NavLink } from 'react-router-dom';
+import Content from './content';
 
-// eslint-disable-next-line react/prop-types
 
-
-function Sidebar({openSidebarToggle, OpenSidebar}){
-    return(
-        <aside id="sidebar" className={openSidebarToggle ? "sidebar-responsive": ""}>
-        <div className='sidebar-title'>
-            <div className='sidebar-brand'>
-                <BsMenuButtonWideFill  className='icon_header'/> TO DO LIST
-            </div>
-            <span className='icon close_icon' onClick={OpenSidebar}>X</span>
+const Sidebar = ({children}) => {
+    const[isOpen ,setIsOpen] = useState(false);
+    const toggle = () => setIsOpen (!isOpen);
+    const menuItem=[
+        {
+            path:"/dashboard",
+            name:"Dashboard",
+            icon:<FaTh/>
+        },
+        {
+            path:"/addtask",
+            name:"Add Task",
+            icon:<FaThList/>
+        },
+        
+        {
+            path:"/",
+            name:"Logout",
+            icon:<FaUserAlt/>
+        },
+        
+    ]
+    return (
+        <div className="container">
+            
+           <div style={{width: isOpen ? "200px" : "50px"}} className="sidebar">
+               <div className="top_section">
+                   <h1 style={{display: isOpen ? "block" : "none"}} className="todo">Todo Task</h1>
+                   <div style={{marginLeft: isOpen ? "50px" : "0px"}} className="bars">
+                       <FaBars onClick={toggle}/>
+                   </div>
+               </div>
+               {
+                   menuItem.map((item, index)=>(
+                       <NavLink to={item.path} key={index} className="link" activeclassName="active">
+                           <div className="icon">{item.icon}</div>
+                           <div style={{display: isOpen ? "block" : "none"}} className="link_text">{item.name}</div>
+                       </NavLink>
+                   ))
+               }
+           </div>
+        <Content/>
+           <main>{children}</main>
+           
         </div>
+    );
+};
 
-        <ul className='sidebar-list'>
-            <li className='sidebar-list-item'>
-              
-                    <BsFillArchiveFill className='icon'/> Add task
-                
-            </li>
-            
-            
-            <li className='sidebar-list-item'>
-                <a href="">
-                    <BsPeopleFill className='icon'/> Sign Out
-                </a>
-            </li>
-        </ul>
-    </aside>
-
-    )
-
-}
-export default Sidebar
+export default Sidebar;
