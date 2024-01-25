@@ -178,7 +178,7 @@ function Calendar() {
       )}
       <div className="calendar">{renderCalendar()}</div>
       <div className="agenda">
-        <h2>Agenda</h2>
+        <h2>Pending Task</h2>
         {tasks.map((task, index) => (
           <div key={index} className={`agenda-item ${task.category}`}>
             <span>{task.date}: {task.title}</span>
